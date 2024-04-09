@@ -17,52 +17,43 @@ function limpiarNodo2(elemento){
         elemento.removeChild(elemento.childNodes[1]);
     }
 }
-//ValidarCorreoElectronico
+const $formPrincipal = document.getElementsByTagName("form");
+//Email DOM
 const $labelEmail = document.getElementsByClassName("col-sm-2 col-form-label");
-const input = document.getElementById("inputEmail");
-input.addEventListener("input", function(event){
-    let contenidoInput = input.value;
-    limpiarNodo2($labelEmail[0]);
-    if(!contenidoInput.includes('@') || (!contenidoInput.includes('.'))){
-        $labelEmail[0].appendChild(mensajeError('debe contener @ y .'));
-    }else{
-        $labelEmail[0].appendChild(mensajeValido());
-    }
-});
-
-//Validar Chek
-const $chek = document.getElementById('gridCheck1');
-const $chekDiv = document.getElementsByClassName('form-check-label');
-$chek.addEventListener("change", function(){
-    limpiarNodo2($chekDiv[0]);
-    if(this.checked){
-        $chekDiv[0].appendChild(mensajeValido());
-    } else{
-        $chekDiv[0].appendChild(mensajeError('Debes de aceptar los terminos y condiciones'));
-    }
-});
-
-//Validar Password
+const $inputEmail = document.getElementById("inputEmail");
+// Pwd DOM
 const $inputPwd = document.getElementById('inputPassword');
 const $labelPwd = document.getElementsByClassName('col-sm-2 col-form-label');
 let pwdContent = $pwd[0].textContent;
-$inputPwd.addEventListener("input", function(event){
-    limpiarNodo2($labelPwd[1]);
-    let contenidoInput = $inputPwd.value;
-    if(contenidoInput != pwdContent){
-        $labelPwd[1].appendChild(mensajeError('Contraseña Diferente'));
+//Cantidad DOM
+const $labelCantidad = document.getElementsByClassName('col-sm-2 col-form-label');
+const $inputCantiad = document.getElementById('inputCantidad')
+//CheckList Dom
+const $inputChek = document.getElementById('gridCheck1');
+const $labelCheck = document.getElementsByClassName('form-check-label');
+
+$formPrincipal[0].addEventListener("submit", function(event){
+    event.preventDefault();
+
+    if(!$inputEmail.value.includes('@') || !$inputEmail.value.includes('.')){
+        $labelEmail[0].appendChild(mensajeError('Debe contener . y @.'));
+    } else{
+        $labelEmail[0].appendChild(mensajeValido());        
+    }
+
+    if(pwdContent != $inputPwd.value){
+       $labelPwd[1].appendChild(mensajeError('La contraseña no coincide.')) ;
     } else{
         $labelPwd[1].appendChild(mensajeValido());
     }
-});
-//Validar Unidades Pedidas
-const $labelCantidad = document.getElementsByClassName('col-sm-2 col-form-label');
-const $inputCantiad = document.getElementById('inputCantidad');
-$inputCantiad.addEventListener("input", function(event){
-    limpiarNodo2($labelCantidad[2]);
     if($inputCantiad.value > 5){
-        $labelPwd[2].appendChild(mensajeError('No puedes elegir mas de 5')); 
-    } else{
-        limpiarNodo2($labelCantidad[2]);
+       $labelCantidad[2].appendChild(mensajeError('No puedes seleccionar mas de 5 unidades.')) ;
+    }else{
+        $labelCantidad[2].appendChild(mensajeValido());
+    }
+    if(!$inputChek.checked){
+       $labelCheck[0].appendChild(mensajeError('Tienes que aceptar las condiciones')) ;        
+    }else{
+       $labelCheck[0].appendChild(mensajeValido());        
     }
 });
